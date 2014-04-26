@@ -2,6 +2,7 @@ package com.example.bespiel;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 
 
-	private String bucketText = "";
 	private TextView tv;
 	
 	@Override
@@ -33,15 +33,15 @@ public class MainActivity extends Activity {
 
 	private void setupInterface () {
 		tv = (TextView) findViewById(R.id.bucket);
-		
+	    tv.setMovementMethod(new ScrollingMovementMethod());
+	    tv.setText("Anfang");
 		Button clickButton = (Button) findViewById(R.id.clickButton);
 		clickButton.setOnClickListener( new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Log.i("foo","clicked!!!");
 
-				bucketText = bucketText + "xxxxxxxxxx";
-				tv.setText(bucketText);
+				tv.append("xxxxxxxxxxxaaaaaaaaaaaaaayymmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmyyyyyyyyyyy");
 			}
 		});
 

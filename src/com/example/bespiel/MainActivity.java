@@ -41,10 +41,11 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				Log.i("foo","clicked!!!");
 
-				tv.append("xxxxxxxxxxxaaaaaaaaaaaaaayymmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmyyyyyyyyyyy");
+				sayit("clacked");
 			}
 		});
 
 	}
 
+	private void sayit(String s) { tv.append(s + "\n"); }
 }

@@ -2,6 +2,7 @@ package com.example.bespiel;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -14,12 +15,14 @@ public class MainActivity extends Activity {
 
 
 	private TextView tv;
+	private Activity me;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		setupInterface();
+		me = this;
 	}
 
 	
@@ -42,6 +45,16 @@ public class MainActivity extends Activity {
 				Log.i("foo","clicked!!!");
 
 				sayit("clacked");
+			}
+		});
+		Button startServiceButton = (Button) findViewById(R.id.startServiceButton);
+		startServiceButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i("foo", "starting Service");
+				Intent intent = new Intent(me,ShellService.class);
+				startService(intent);
+				
 			}
 		});
 

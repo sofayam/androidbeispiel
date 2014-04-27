@@ -9,6 +9,7 @@ public class ShellService extends Service {
 	
 
 	private int locVar = 0;
+	private String fooBar = "com.example.beispiel.FOO_BAR";
 	
 	public ShellService() {
 	}
@@ -26,7 +27,11 @@ public class ShellService extends Service {
 		locVar +=1 ;
 		Log.i("foo","started service with locVar: " + Integer.toString(locVar));
 
+		Intent i = new Intent(fooBar);
+		sendBroadcast(i);
 		return Service.START_STICKY;
 	}
+	
+	
 	
 }

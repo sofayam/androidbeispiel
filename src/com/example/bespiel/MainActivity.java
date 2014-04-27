@@ -24,10 +24,11 @@ public class MainActivity extends Activity {
 	private BroadcastReceiver bReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			//if(intent.getAction().equals("com.example.beispiel.FOO_BAR")) {
+			if(intent.getAction().equals("com.example.beispiel.FOO_BAR")) {
 			//String serviceJsonString = intent.getExtra("json");
 			//Do something with the string
-			Log.i("foo","received intent foo_bar");
+				Log.i("foo","received intent foo_bar back in activity");
+			}
 
 		}
 	};

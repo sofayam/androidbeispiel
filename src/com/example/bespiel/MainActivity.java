@@ -20,14 +20,16 @@ public class MainActivity extends Activity {
 
 	private TextView tv;
 	private Activity me;
-	private String fooBar = "com.example.beispiel.FOO_BAR";
+
 	private BroadcastReceiver bReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			if(intent.getAction().equals("com.example.beispiel.FOO_BAR")) {
+			if(intent.getAction().equals(Constants.fooBar)) {
 			//String serviceJsonString = intent.getExtra("json");
 			//Do something with the string
 				Log.i("foo","received intent foo_bar back in activity");
+				Integer ctr = (Integer) intent.getExtras().get("ctr");
+				sayit("hacked " + ctr.toString() + "\n");
 			}
 
 		}
@@ -36,7 +38,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		Log.i("foo","!!!resuming");
 		IntentFilter filter = new IntentFilter();
-		filter.addAction(fooBar);
+		filter.addAction(Constants.fooBar);
 		registerReceiver(bReceiver, filter);
 		super.onResume();
 	}
@@ -82,11 +84,12 @@ public class MainActivity extends Activity {
 			}
 		});
 
-
+/*        
+		Log.i("foo", "Setting up breceiver" );
 		LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction("com.example.beispiel.FOO_BAR");
-		bManager.registerReceiver(bReceiver, intentFilter);
+		intentFilter.addAction(Constants.fooBar);
+		bManager.registerReceiver(bReceiver, intentFilter);*/
 
 	}
 

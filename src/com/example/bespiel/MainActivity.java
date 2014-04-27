@@ -1,12 +1,18 @@
 package com.example.bespiel;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.io.*;
+import java.util.*;
+
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 public class MainActivity extends Activity {
 
@@ -30,11 +37,25 @@ public class MainActivity extends Activity {
 				Log.i("foo","received intent foo_bar back in activity");
 				Integer ctr = (Integer) intent.getExtras().get("ctr");
 				sayit("hacked " + ctr.toString() + "\n");
+				String funky = (String)intent.getExtras().get("json");
+				List<FunkyRecord> ll = (ArrayList<FunkyRecord>)fromString(funky); 
+				sayit("funky " + funky);
+				
 			}
 
 		}
 	};
 
+	   private static Object fromString( String s ) throws IOException ,
+       ClassNotFoundException {
+byte [] data = Base64Coder.decode( s );
+ObjectInputStream ois = new ObjectInputStream( 
+new ByteArrayInputStream(  data ) );
+Object o  = ois.readObject();
+ois.close();
+return o;
+}
+	
 	protected void onResume() {
 		Log.i("foo","!!!resuming");
 		IntentFilter filter = new IntentFilter();

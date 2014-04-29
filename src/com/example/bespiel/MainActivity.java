@@ -2,9 +2,12 @@ package com.example.bespiel;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.io.*;
-import java.util.*;
+
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 
 import android.os.Bundle;
@@ -38,24 +41,24 @@ public class MainActivity extends Activity {
 				Integer ctr = (Integer) intent.getExtras().get("ctr");
 				sayit("hacked " + ctr.toString() + "\n");
 				String funky = (String)intent.getExtras().get("json");
-				List<FunkyRecord> ll = (ArrayList<FunkyRecord>)fromString(funky); 
+				//List<FunkyRecord> ll = (ArrayList<FunkyRecord>)fromString(funky); 
 				sayit("funky " + funky);
-				
+				decode(funky);
+				String threadName = (String)intent.getExtras().get("thread");
+				sayit("thread: " + threadName);
+				//NestedMap nm = (NestedMap)intent.getSerializableExtra("nestedMap");
+				Object o = intent.getExtras().get("nestedMap");
+				HashMap<String,Object> hm = (HashMap<String,Object>)(o);
+				//NestedMap nm = (NestedMap)hm; TODO find why this causes an error
+				FunkyRecord fr = (FunkyRecord)intent.getSerializableExtra("funkySerial");
+				sayit(fr.toString());
+				NestedMap.doTests();
 			}
 
 		}
 	};
 
-	   private static Object fromString( String s ) throws IOException ,
-       ClassNotFoundException {
-byte [] data = Base64Coder.decode( s );
-ObjectInputStream ois = new ObjectInputStream( 
-new ByteArrayInputStream(  data ) );
-Object o  = ois.readObject();
-ois.close();
-return o;
-}
-	
+
 	protected void onResume() {
 		Log.i("foo","!!!resuming");
 		IntentFilter filter = new IntentFilter();
@@ -105,14 +108,15 @@ return o;
 			}
 		});
 
-/*        
-		Log.i("foo", "Setting up breceiver" );
-		LocalBroadcastManager bManager = LocalBroadcastManager.getInstance(this);
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(Constants.fooBar);
-		bManager.registerReceiver(bReceiver, intentFilter);*/
+	
+
 
 	}
 
+	private void decode(String f) {
+		Type listType = new TypeToken<ArrayList<FunkyRecord>>() {}.getType();
+		List<FunkyRecord> frl = new Gson().fromJson(f,listType);
+		sayit(frl.toString());
+	}
 	private void sayit(String s) { tv.append(s + "\n"); }
 }

@@ -108,7 +108,18 @@ public class MainActivity extends Activity {
 			}
 		});
 
-	
+		Button threadButton = (Button) findViewById(R.id.threadButton);
+		threadButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Log.i("foo", "starting thread");
+				Intent intent = new Intent(me,ShellService.class);
+				intent.putExtra("gothread", true);
+				startService(intent);
+
+			}
+		});
+
 
 
 	}

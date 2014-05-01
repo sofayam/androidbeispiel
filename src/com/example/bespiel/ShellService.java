@@ -46,6 +46,7 @@ public class ShellService extends Service {
 		if (gothread) {
 			Log.i("foo","doing nothing yet");
 			// do crazy threadstarting stuff
+			startProgressThread();
 		} else { 
 
 			locVar +=1 ;
@@ -84,6 +85,32 @@ public class ShellService extends Service {
 		return jstring;
 	}
 	
-	
+	void startProgressThread() {
+		Thread progThread = new Thread() {
+            // setting the behavior we want from the Thread
+            @Override
+            public void run() {
+            	int ctr = 0; 
+                try {
+                    // a Thread loop
+                    while(ctr<100) {
+                        ctr+=1;
+                        sleep(1000);
+        				Log.i("foo", "in the prog ctr thread");
+            			Intent i = new Intent(Constants.fooBar);
+            			i.putExtra("prog", ctr);
+            			sendBroadcast(i);
+                    }
+                } catch(InterruptedException e) {
+                    // don't forget to deal with exceptions....
+                } finally {
+                    // this block always executes so take care here of
+                    // unfinished business
+                }
+            }
+        };
+        progThread.start();
+        // ...
+	}
 	
 }

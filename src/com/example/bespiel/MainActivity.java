@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -30,11 +31,24 @@ public class MainActivity extends Activity {
 
 	private TextView tv;
 	private Activity me;
+	private ProgressBar prog;
+	private int progInt = 0;
 
 	private BroadcastReceiver bReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			if(intent.getAction().equals(Constants.fooBar)) {
+				Bundle extras = intent.getExtras();
+				
+				if (extras != null) {
+					progInt = extras.getInt("prog",0);
+					Log.i("foo", "got the prog call from the thread");
+					if (progInt > 0) {
+						prog.setProgress(progInt);
+						return;
+					}
+		    // And now for some non thread stuff		
+					
 			//String serviceJsonString = intent.getExtra("json");
 			//Do something with the string
 				Log.i("foo","received intent foo_bar back in activity");
@@ -53,8 +67,10 @@ public class MainActivity extends Activity {
 				FunkyRecord fr = (FunkyRecord)intent.getSerializableExtra("funkySerial");
 				sayit(fr.toString());
 				NestedMap.doTests();
-			}
 
+				}
+
+			}
 		}
 	};
 
@@ -119,6 +135,9 @@ public class MainActivity extends Activity {
 
 			}
 		});
+		
+		prog = (ProgressBar)findViewById(R.id.progress);
+		prog.setMax(100);
 
 
 
